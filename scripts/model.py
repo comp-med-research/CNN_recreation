@@ -17,7 +17,6 @@ class CNN1(nn.Module):
         
 
     def forward(self, x):
-        # Embed the pixel values
         x = x.float() 
         x = self.cn1(x)
         x = self.relu(x)
@@ -54,7 +53,6 @@ class CNN2(nn.Module):
         
 
     def forward(self, x):
-        # Embed the pixel values
         x = x.float() 
         x = self.cn1(x)
         x = self.relu(x)
