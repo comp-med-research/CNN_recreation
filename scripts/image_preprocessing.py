@@ -70,6 +70,7 @@ import pandas as pd
 import nibabel as nib
 import numpy as np
 from PIL import Image
+from matplotlib import pyplot as plt 
 
 # Paths
 csv_path = "/Users/halimat/Documents/alzheimer_project/CNN_recreation/data/raw/nii_sample_cohort_with_labels.csv"
@@ -106,25 +107,29 @@ for subject_dir in os.listdir(raw_dir):
                         
                         # Example processing: take the middle axial slice
                         x_index = data.shape[0] // 2  # Middle slice along the x-axis
-                        axial_slice = data[x_index:, :, ]
+                        axial_slice = data[x_index,:, : ]
                         
-                        # Normalize the image
-                        axial_slice = (axial_slice - np.min(axial_slice)) / (np.max(axial_slice) - np.min(axial_slice)) * 255.0
-                        axial_slice = axial_slice.astype(np.uint8)
+                        # # Normalize the image
+                        # axial_slice = (axial_slice - np.min(axial_slice)) / (np.max(axial_slice) - np.min(axial_slice)) * 255.0
+                        # axial_slice = axial_slice.astype(np.uint8)
 
+                        
                         # Convert to a PIL image
-                        image = Image.fromarray(axial_slice, mode='RGB')
+                        image = Image.fromarray(axial_slice)
 
                         # Resize image
                         image_resized = image.resize((224,224), Image.Resampling.LANCZOS)
+
+                        # Convert image mode to "L" (8-bit grayscale) before saving
+                        image_resized = image_resized.convert("L")
 
                         # Save to the processed directory
                         output_dir = os.path.join(processed_dir, label, group)
                         os.makedirs(output_dir, exist_ok=True)
                         
                         output_file = os.path.join(output_dir, f"{subject_dir}_processed.png")
-                        image.save(output_file)
+                        image_resized.save(output_file)
                         
                         print(f"Processed and saved: {output_file}")
-                break
+       
                      
