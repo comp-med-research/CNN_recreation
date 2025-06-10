@@ -109,10 +109,9 @@ for subject_dir in os.listdir(raw_dir):
                         x_index = data.shape[0] // 2  # Middle slice along the x-axis
                         axial_slice = data[x_index,:, : ]
                         
-                        # # Normalize the image
-                        # axial_slice = (axial_slice - np.min(axial_slice)) / (np.max(axial_slice) - np.min(axial_slice)) * 255.0
-                        # axial_slice = axial_slice.astype(np.uint8)
-
+                        # Normalize the image
+                        axial_slice = (axial_slice - np.min(axial_slice)) / (np.max(axial_slice) - np.min(axial_slice)) * 255.0
+                        axial_slice = axial_slice.astype(np.uint8)
                         
                         # Convert to a PIL image
                         image = Image.fromarray(axial_slice)
